@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 
+char previousb = 0;
 std::string readline() {
 	std::string returnme;
 	std::getline(std::cin, returnme);
@@ -66,6 +67,30 @@ char handlebyte(char byte, int method) {
 	case 6:
 		byte = 0;
 		return byte;
+	case 7:
+		byte = previousb;
+		return byte;
+	case 8:
+		byte = byte * byte;
+		return byte;
+	case 9:
+		byte = byte / byte;
+		return byte;
+	case 10:
+		byte = (char)INT_MAX;
+		return byte;
+	case 11:
+		byte = byte + rand() % 256;
+		return byte;
+	case 12:
+		byte = byte - rand() % 256;
+		return byte;
+	case 13:
+		byte = byte * rand() % 256;
+		return byte;
+	case 14:
+		byte = byte / rand() % 256;
+		return byte;
 	default:
 		return byte;
 	}
@@ -90,7 +115,9 @@ int main() {
 	int method = std::stoi(readline());
 
 	for (int i = start; i < end; i++) {
+		char b = fbytes[i];
 		fbytes[i] = handlebyte(fbytes[i], method);
+		previousb = b;
 	}
 
 	std::ofstream stream;
@@ -98,6 +125,8 @@ int main() {
 	stream << fbytes;
 	stream.close();
 
-	Sleep(INT_MAX);
+	std::cout << "Done!" << std::endl;
+
+	main();
 	return EXIT_SUCCESS;
 }
